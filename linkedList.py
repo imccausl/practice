@@ -4,12 +4,13 @@ class Node:
         self.next = next
 
 
-class MyLinkedList:
-
+class LinkedList:
     def __init__(self, val):
         """
         Initialize your data structure here.
         """
+        new_node = Node(val)
+        self.head = new_node
 
     def get(self, index: int) -> int:
         """
