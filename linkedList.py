@@ -9,8 +9,10 @@ class LinkedList:
         """
         Initialize your data structure here.
         """
-        new_node = Node(val)
-        self.head = new_node
+        self.length = 0
+        self.head = None
+
+        self.addAtHead(val)
 
     def get(self, index: int) -> int:
         """
@@ -21,6 +23,9 @@ class LinkedList:
         """
         Add a node of value val before the first element of the linked list. After the insertion, the new node will be the first node of the linked list.
         """
+        new_node = Node(val, self.head)
+        self.head = new_node
+        self.length += 1
 
     def addAtTail(self, val: int) -> None:
         """
@@ -36,3 +41,8 @@ class LinkedList:
         """
         Delete the index-th node in the linked list, if the index is valid.
         """
+
+
+ll = LinkedList(10)
+ll.addAtHead(34)
+print(ll)
