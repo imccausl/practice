@@ -70,7 +70,7 @@ LinkedList.prototype.addAtTail = function(val) {
  */
 LinkedList.prototype.addAtIndex = function(index, val) {
   if (index > this.length - 1) {
-    throw new Error("Index doesn't exist for this Linked List.");
+    throw new Error("Index not in range.");
   }
   let currNode = this.head;
   let prevNode = null;
@@ -126,4 +126,10 @@ console.log("Value at index 6:", ll.get(6));
 console.log("Value at index 100000:", ll.get(100000));
 
 ll.addAtIndex(3, 24);
+console.log(inspect(ll, false, null, true));
+
+ll.addAtIndex(6, 23948);
+console.log(inspect(ll, false, null, true));
+
+ll.addAtIndex(2, "Hmmmph");
 console.log(inspect(ll, false, null, true));
