@@ -73,7 +73,7 @@ LinkedList.prototype.addAtIndex = function(index, val) {
     throw new Error("Index doesn't exist for this Linked List.");
   }
   let currNode = this.head;
-  let prevNode = {};
+  let prevNode = null;
 
   for (let i = 0; i < index; i++) {
     prevNode = currNode;
