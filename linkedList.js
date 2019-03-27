@@ -2,7 +2,7 @@
 const { inspect } = require("util")
 
 // doing it the old school prototypical inheritance way for funzies.
-const Node = function(val = null, next = null, tail = null) {
+const Node = function(val = null, next = null) {
   this.val = val
   this.next = next
 }
