@@ -7,7 +7,7 @@ const Node = function(val = null, next = null) {
   this.next = next
 }
 
-const LinkedList = function(val) {
+const MyLinkedList = function(val = null) {
   this.head = null
   this.length = 0
 
@@ -19,15 +19,19 @@ const LinkedList = function(val) {
  * @param {number} index
  * @return {number}
  */
-LinkedList.prototype.get = function(index) {
+MyLinkedList.prototype.get = function(index) {
   let currNode = this.head
 
   for (let i = 0; i < index; i++) {
-    currNode = currNode.next
-
     if (!currNode) {
       return -1
     }
+
+    currNode = currNode.next
+  }
+
+  if (!currNode || !currNode.hasOwnProperty("val")) {
+    return -1
   }
 
   return currNode.val
@@ -38,11 +42,13 @@ LinkedList.prototype.get = function(index) {
  * @param {number} val
  * @return {void}
  */
-LinkedList.prototype.addAtHead = function(val) {
+MyLinkedList.prototype.addAtHead = function(val) {
   const newNode = new Node(val, this.head)
 
-  this.head = newNode
-  this.length++
+  if (val !== null) {
+    this.head = newNode
+    this.length++
+  }
 }
 
 /**
@@ -50,7 +56,7 @@ LinkedList.prototype.addAtHead = function(val) {
  * @param {number} val
  * @return {void}
  */
-LinkedList.prototype.addAtTail = function(val) {
+MyLinkedList.prototype.addAtTail = function(val) {
   let currNode = this.head
 
   // find the end of the list
@@ -68,9 +74,9 @@ LinkedList.prototype.addAtTail = function(val) {
  * @param {number} val
  * @return {void}
  */
-LinkedList.prototype.addAtIndex = function(index, val) {
-  if (index > this.length - 1) {
-    throw new Error("Index not in range.")
+MyLinkedList.prototype.addAtIndex = function(index, val) {
+  if (index > this.length) {
+    return -1
   }
   let currNode = this.head
   let prevNode = null
@@ -81,7 +87,17 @@ LinkedList.prototype.addAtIndex = function(index, val) {
   }
 
   const newNode = new Node(val, currNode)
-  prevNode.next = newNode
+
+  if (!prevNode) {
+    if (!currNode) {
+      this.head = newNode
+    } else {
+      currNode.head = newNode
+    }
+  } else {
+    prevNode.next = newNode
+  }
+
   this.length++
 }
 
@@ -90,9 +106,9 @@ LinkedList.prototype.addAtIndex = function(index, val) {
  * @param {number} index
  * @return {void}
  */
-LinkedList.prototype.deleteAtIndex = function(index) {
+MyLinkedList.prototype.deleteAtIndex = function(index) {
   if (index > this.length - 1) {
-    throw new Error("Index not in range")
+    return -1
   }
 
   let currNode = this.head
@@ -114,54 +130,36 @@ LinkedList.prototype.deleteAtIndex = function(index) {
 
 // Output for testing
 
-const ll = new LinkedList(10)
+const calls = [
+  "addAtHead",
+  "get",
+  "addAtTail",
+  "addAtIndex",
+  "addAtHead",
+  "addAtIndex",
+  "addAtTail",
+  "addAtTail",
+  "addAtIndex",
+  "get",
+  "addAtTail",
+]
 
-console.log(inspect(ll, false, null, true))
+const argses = [[0], [1], [2], [1, 4], [4], [1, 4], [5], [2], [2, 0], [2], [1]]
 
-ll.addAtHead(15)
+function test(methods, inputs) {
+  ll = new MyLinkedList()
 
-console.log(inspect(ll, false, null, true))
+  methods.forEach((method, index) => {
+    console.log("method:", method)
+    console.log("args:", inputs[index])
 
-ll.addAtHead(20)
+    if (method === "get") {
+      console.log(ll.get.apply(ll, inputs[index]))
+    } else {
+      ll[method].apply(ll, inputs[index])
+      console.log(inspect(ll, false, null, true))
+    }
+  })
+}
 
-console.log(inspect(ll, false, null, true))
-
-ll.addAtHead(2303)
-
-console.log(inspect(ll, false, null, true))
-
-ll.addAtHead(244)
-
-console.log(inspect(ll, false, null, true))
-
-ll.addAtTail("Blerf")
-
-console.log(inspect(ll, false, null, true))
-
-console.log("Value at index 3:", ll.get(3))
-console.log("Value at index 0:", ll.get(0))
-console.log("Value at index 5:", ll.get(5))
-console.log("Value at index 100:", ll.get(100))
-console.log("Value at index 6:", ll.get(6))
-console.log("Value at index 100000:", ll.get(100000))
-
-ll.addAtIndex(3, 24)
-console.log(inspect(ll, false, null, true))
-
-ll.addAtIndex(6, 23948)
-console.log(inspect(ll, false, null, true))
-
-ll.addAtIndex(2, "Hmmmph")
-console.log(inspect(ll, false, null, true))
-
-ll.deleteAtIndex(2)
-console.log(inspect(ll, false, null, true))
-
-ll.deleteAtIndex(1)
-console.log(inspect(ll, false, null, true))
-
-ll.deleteAtIndex(0)
-console.log(inspect(ll, false, null, true))
-
-ll.deleteAtIndex(5)
-console.log(inspect(ll, false, null, true))
+test(calls, argses)
