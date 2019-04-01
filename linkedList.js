@@ -128,6 +128,24 @@ MyLinkedList.prototype.deleteAtIndex = function(index) {
   this.length--;
 };
 
+// For testing, add a cycle node
+MyLinkedList.prototype.addCycleNode = function() {
+  const cirNode = this.head.next.next;
+
+  let currNode = this.head;
+
+  // find the end of the list
+  while (currNode.next) {
+    currNode = currNode.next;
+  }
+
+  console.log("cirNode:", cirNode);
+  console.log("currNode:", currNode);
+
+  currNode.next = cirNode;
+  this.length++;
+};
+
 // Output for testing
 
 // const calls = [
