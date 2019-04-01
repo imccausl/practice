@@ -34,4 +34,4 @@ var hasCycle = function(head) {
 
 ll = new LinkedList(1);
 
-console.log(!!hasCycle(ll.head));
+console.log(hasCycle(ll.head));
